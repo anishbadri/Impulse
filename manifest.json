@@ -1,0 +1,16 @@
+{
+	"manifest_version": 2,
+	"name": "Impulse",
+	"version": "0.0.1",
+	"browser_action":{
+		"default_popup": "popup.html",
+		"default_title": "Impulse"
+	},
+	"background": {
+        "scripts": ["background.js"]
+    },
+    "permissions":[
+        "tabs",
+        "contextMenus"
+    ]
+}
