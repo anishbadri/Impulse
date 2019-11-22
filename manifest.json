@@ -8,9 +8,11 @@
 	},
 	"background": {
         "scripts": ["background.js"]
-    },
+	},
+	"options_page": "index.html",
     "permissions":[
         "tabs",
-        "contextMenus"
+		"contextMenus",
+		"storage"
     ]
 }
