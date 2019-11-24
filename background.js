@@ -1,5 +1,9 @@
 console.log("Hello");
 
+function videoItem(Id){
+    this.Id = Id;
+    this.time = new Date().getTime();
+}
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
     if(isUrlActiveYTVideo(changeInfo.url))
@@ -33,13 +37,16 @@ function getVideoIdFromUrl(url){
     return url.match(regex) ? url.match(regex)[1]: null;
 }
 
+
+//remove duplicated from added and update their time 
 function addVideoIdInStorage(videoId){
     chrome.storage.local.get(['videoList'], function(data){
         if(data.videoList == undefined){
-            var array = []
-            chrome.storage.local.set({videoList: array})
+            data.videoList = []
         }
-        data.videoList.push(videoId);
+        var newVideoItem = new videoItem(videoId); 
+        console.log(newVideoItem);
+        data.videoList.push(newVideoItem);
         chrome.storage.local.set({videoList: data.videoList})
     })
 }
