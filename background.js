@@ -1,4 +1,4 @@
-console.log("Hello");
+console.log("Hello Impulse");
 
 function videoItem(Id){
     this.Id = Id;
@@ -18,7 +18,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
         addVideoIdInStorage(videoId);
         // videoCount++;
         // console.log("Url changed to ", changeInfo.url);
-        chrome.tabs.update(tabId, {url: chrome.runtime.getURL('index.html')});
+        chrome.tabs.update(tabId, {url: chrome.runtime.getURL('impulse.html')});
     }
 })
 
@@ -40,13 +40,36 @@ function getVideoIdFromUrl(url){
 
 //remove duplicated from added and update their time 
 function addVideoIdInStorage(videoId){
-    chrome.storage.local.get(['videoList'], function(data){
-        if(data.videoList == undefined){
-            data.videoList = []
+    dupilcateCheck(videoId).then((duplicate) => {
+        // console.log("duplicates " + duplicate);
+        if(!duplicate) {
+            chrome.storage.local.get(['videoList'], function(data){
+                if(data.videoList == undefined){
+                    data.videoList = []
+                }
+                var newVideoItem = new videoItem(videoId); 
+                console.log(newVideoItem);
+                data.videoList.push(newVideoItem);
+                chrome.storage.local.set({videoList: data.videoList})
+            })
         }
-        var newVideoItem = new videoItem(videoId); 
-        console.log(newVideoItem);
-        data.videoList.push(newVideoItem);
-        chrome.storage.local.set({videoList: data.videoList})
+        else{
+            // Can update time for the existing Id
+        }
+    })
+}
+
+function dupilcateCheck(videoId){
+    return new Promise((resolve, reject) =>{
+        chrome.storage.local.get(['videoList'], function(data){
+            if(data.videoList != undefined){
+                data.videoList.forEach(element => {
+                    if(element.Id == videoId){
+                        resolve(true);
+                    }
+                })
+                resolve(false);
+            }
+        });
     })
 }
