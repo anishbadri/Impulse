@@ -40,7 +40,7 @@ function getVideoIdFromUrl(url){
 
 //remove duplicated from added and update their time 
 function addVideoIdInStorage(videoId){
-    dupilcateCheck(videoId).then((duplicate) => {
+    dupilcateVideoIdCheck(videoId).then((duplicate) => {
         // console.log("duplicates " + duplicate);
         if(!duplicate) {
             chrome.storage.local.get(['videoList'], function(data){
@@ -59,7 +59,7 @@ function addVideoIdInStorage(videoId){
     })
 }
 
-function dupilcateCheck(videoId){
+function dupilcateVideoIdCheck(videoId){
     return new Promise((resolve, reject) =>{
         chrome.storage.local.get(['videoList'], function(data){
             if(data.videoList != undefined){
