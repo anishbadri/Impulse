@@ -13,6 +13,7 @@
     "permissions":[
         "tabs",
 		"contextMenus",
-		"storage"
+		"storage",
+		"https://www.youtube.com/get_video_info?html5=1&video_id=*"
     ]
 }
